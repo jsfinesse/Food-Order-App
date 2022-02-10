@@ -5,12 +5,13 @@
 .form button {
     font: inherit;
     cursor: pointer;
-    background-color: #8a2b06;
-    border: 1px solid #8a2b06;
+    background-color: #D4101E;
+    border: 1px solid #D4101E;
     color: white;
     padding: 0.25rem 2rem;
     border-radius: 20px;
     font-weight: bold;
+    transition: all 0.2s linear 0s;
 }
 
 .form button:hover,
