@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext, useEffect } from "react";
 
 import CartIcon from "../Cart/CartIcon";
 import CartContext from "../../store/cart-context";
@@ -11,8 +11,10 @@ const HeaderCartButton = (props) => {
         return curNumber + item.amount;
     }, 0);
 
+    const btnClasses = `${classes.button} ${classes.bump}`;
+
     return (
-        <button className={classes.button} onClick={props.onClick}>
+        <button className={btnClasses} onClick={props.onClick}>
             <span className={classes.icon}>
                 <CartIcon />
             </span>
