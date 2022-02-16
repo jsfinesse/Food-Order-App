@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 import classes from "./AvailableMeals.module.css";
-import { useEffect } from "react";
 
 // const DUMMY_MEALS = [
 //     {
@@ -34,6 +33,7 @@ import { useEffect } from "react";
 
 const AvailableMeals = () => {
     const [meals, setMeals] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -41,7 +41,7 @@ const AvailableMeals = () => {
                 `https://fudo-react-default-rtdb.firebaseio.com/meals.json`
             );
             const responseData = await response.json();
-
+            console.log(responseData);
             const loadedMeals = [];
 
             for (const key in responseData) {
@@ -53,10 +53,18 @@ const AvailableMeals = () => {
                 });
             }
 
-            setMeals(loadedMeals)
+            setMeals(loadedMeals);
+            setIsLoading(false);
         };
         fetchMeals();
     }, []);
+
+    if(isLoading) {
+        return <section className={classes.MealsLoading}>
+            <h2>Loading...</h2>
+        </section>
+    }
+
     const mealsList = meals.map((meal) => (
         <MealItem
             id={meal.id}
