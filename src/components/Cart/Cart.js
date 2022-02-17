@@ -26,7 +26,15 @@ const Cart = (props) => {
         setIsCheckout(true);
     };
 
-    const sumbitOrderHandler = (userData) => {};
+    const sumbitOrderHandler = (userData) => {
+        fetch('https://fudo-react-default-rtdb.firebaseio.com/orders.json', {
+            method: 'POST',
+            body: JSON.stringify({
+                user: userData,
+                orderItems: cartCtx.items
+            })
+        })
+    };
 
     const cartItems = (
         <ul className={classes["cart-items"]}>

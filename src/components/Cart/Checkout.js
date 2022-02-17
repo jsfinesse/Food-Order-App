@@ -48,27 +48,52 @@ const Checkout = (props) => {
             return;
         }
 
-        props.onConfirm();
+        props.onConfirm({
+            name: enteredName,
+            street: enteredStreet,
+            city: enteredCity,
+            pin: enteredPIN,
+        });
     };
 
     return (
         <form className={classes.form} onSubmit={confirmHandler}>
-            <div className={`${classes.control} ${formInputsValidity.name ? '' : classes.invalid}`}>
+            <div
+                className={`${classes.control} ${
+                    formInputsValidity.name ? "" : classes.invalid
+                }`}
+            >
                 <label htmlFor="name">Your Name</label>
                 <input type="text" id="name" ref={nameInputRef} />
                 {!formInputsValidity.name && <p>Please enter a valid name</p>}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.street ? '' : classes.invalid}`}>
+            <div
+                className={`${classes.control} ${
+                    formInputsValidity.street ? "" : classes.invalid
+                }`}
+            >
                 <label htmlFor="street">Street</label>
                 <input type="text" id="street" ref={streetInputRef} />
-                {!formInputsValidity.street && <p>Please enter a valid street</p>}
+                {!formInputsValidity.street && (
+                    <p>Please enter a valid street</p>
+                )}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.pin ? '' : classes.invalid}`}>
+            <div
+                className={`${classes.control} ${
+                    formInputsValidity.pin ? "" : classes.invalid
+                }`}
+            >
                 <label htmlFor="pin">PIN Code</label>
                 <input type="text" id="pin" ref={pinInputRef} />
-                {!formInputsValidity.pin && <p>Please enter a valid PIN code</p>}
+                {!formInputsValidity.pin && (
+                    <p>Please enter a valid PIN code</p>
+                )}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.city ? '' : classes.invalid}`}>
+            <div
+                className={`${classes.control} ${
+                    formInputsValidity.city ? "" : classes.invalid
+                }`}
+            >
                 <label htmlFor="city">City</label>
                 <input type="text" id="city" ref={cityInputRef} />
                 {!formInputsValidity.city && <p>Please enter a valid city</p>}
