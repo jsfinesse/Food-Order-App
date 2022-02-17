@@ -8,6 +8,8 @@ import classes from "./Cart.module.css";
 
 const Cart = (props) => {
     const [isCheckout, setIsCheckout] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [didSubmit, setDidSubmit] = useState(false);
 
     const cartCtx = useContext(CartContext);
 
@@ -26,14 +28,22 @@ const Cart = (props) => {
         setIsCheckout(true);
     };
 
-    const sumbitOrderHandler = (userData) => {
-        fetch('https://fudo-react-default-rtdb.firebaseio.com/orders.json', {
-            method: 'POST',
-            body: JSON.stringify({
-                user: userData,
-                orderItems: cartCtx.items
-            })
-        })
+    const sumbitOrderHandler = async (userData) => {
+        setIsSubmitting(true);
+
+        await fetch(
+            "https://fudo-react-default-rtdb.firebaseio.com/orders.json",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    user: userData,
+                    orderItems: cartCtx.items,
+                }),
+            }
+        );
+
+        setIsSubmitting(false);
+        setDidSubmit(true);
     };
 
     const cartItems = (
@@ -64,15 +74,36 @@ const Cart = (props) => {
         </div>
     );
 
-    return (
-        <Modal onClose={props.onClose}>
+    const cartModalContent = (
+        <React.Fragment>
             {cartItems}
             <div className={classes.total}>
                 <span>Your Total</span>
                 <span>{totalAmount}</span>
             </div>
-            {isCheckout && <Checkout onConfirm={sumbitOrderHandler} onCancel={props.onClose} />}
+            {isCheckout && (
+                <Checkout
+                    onConfirm={sumbitOrderHandler}
+                    onCancel={props.onClose}
+                />
+            )}
             {!isCheckout && modalActions}
+        </React.Fragment>
+    );
+
+    const isSubmittingModalContent = <p>Your order is being processed...</p>;
+
+    const didSubmitModalContent = (
+        <p>
+            Thanks for choosing us :). Your order will reach you at the soonest
+        </p>
+    );
+
+    return (
+        <Modal onClose={props.onClose}>
+            {!isSubmitting && !didSubmit && cartModalContent}
+            {isSubmitting && isSubmittingModalContent}
+            {!isSubmitting && didSubmit && didSubmitModalContent}
         </Modal>
     );
 };
